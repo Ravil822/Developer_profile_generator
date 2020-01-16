@@ -1,0 +1,23 @@
+{
+  "name": "developer_profile_generator",
+  "version": "1.0.0",
+  "description": "a command-line application that dynamically generates a PDF profile from a GitHub username",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ravil822/Developer_profile_generator.git"
+  },
+  "author": "Ravil Kutyev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ravil822/Developer_profile_generator/issues"
+  },
+  "homepage": "https://github.com/Ravil822/Developer_profile_generator#readme",
+  "dependencies": {
+    "axios": "^0.19.1",
+    "inquirer": "^7.0.3"
+  }
+}
