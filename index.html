@@ -40,8 +40,8 @@
                 <h2>Currently @ ${userCompany}</h2>
                 <div class="row justify-content-center">
                     <nav class="nav">
-                      <a class="nav-link active" href="#"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
-                        ${location}</a>
+                      <a class="nav-link active" href="https://www.google.com/maps/search/?api=1&query=${response.data.location}"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
+                        ${${response.data.location}}</a>
                       <a class="nav-link" href="${user}"><i class="fab fa-github fa-lg white-text mr-md- mr- fa-1x"></i> GitHub</a>
                       <a class="nav-link" href="#"><i class="fas fa-rss fa-lg white-text mr-md- mr- fa-1x"></i> Blog</a>
                     </nav>
@@ -74,7 +74,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">GitHub Stars</h5>
-                                <h4>${stars}</h4>                            </div>
+                                <h4>${resStar.data[0].stargazers_count}</h4>                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">

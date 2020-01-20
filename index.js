@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs-extra");
 const axios = require("axios");
-const puppeteer = require("puppeteer")
 const htmpPDF = require("html-pdf");
 
 
@@ -26,6 +25,10 @@ inquirer.prompt([
     let color = answers.color
     const queryUrl = `https://api.github.com/users/${answers.gitUser}`;
     const queryUrlStar = `https://api.github.com/users/${answers.gitUser}/repos?per_page=100`;
+         let stars =  axios.get(queryUrlStar).then(function (resStar) {
+        let dat = resStar.data[0].stargazers_count;
+        stars = dat;
+    }) 
     axios.get(queryUrl).then(function (res) {
         let name = res.data.name;
         let profileImage = res.data.avatar_url;
@@ -40,17 +43,11 @@ inquirer.prompt([
         htmpPDF.create(html).toFile(`./${res.data.name}.pdf`, function (err, res) {
             if (err) return console.log(err);
         });
-        console.log(`Successfully wrote to ${res.data.name}.pdf`);
-        // console.log(userCompany);
-        // console.log(name);
-        // console.log(profileImage);
-        // console.log(location)    // console.log(user)    
+        console.log(`Successfully wrote ${res.data.name}.pdf`);
+  
     })
     // console.log(color);
-    //  let stars =  axios.get(queryUrlStar).then(function (resStar) {
-    //     let dat = resStar.data[0].stargazers_count;
-    //     stars = dat;
-    // }) 
+
     .catch(function (err) {
         console.log(err);
     });
@@ -82,7 +79,7 @@ function generateHTML(answers, res){
     <title></title>
     <style>
         .main-card {
-            background: blue;
+            background: ${answers.color};
         }
         .card-footer{
             background: lightgray;
@@ -101,7 +98,7 @@ function generateHTML(answers, res){
                 <h2>Currently @ ${res.data.company}</h2>
                 <div class="row justify-content-center">
                     <nav class="nav">
-                      <a class="nav-link active" href="#"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
+                      <a class="nav-link active" href=""https://www.google.com/maps/search/?api=1&query=${res.data.location}"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
                         ${res.data.location}</a>
                       <a class="nav-link" href="${res.data.html_url}"><i class="fab fa-github fa-lg white-text mr-md- mr- fa-1x"></i> GitHub</a>
                       <a class="nav-link" href="#"><i class="fas fa-rss fa-lg white-text mr-md- mr- fa-1x"></i> Blog</a>
@@ -135,14 +132,16 @@ function generateHTML(answers, res){
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">GitHub Stars</h5>
-                                <h4></h4>                            </div>
+                                <h4>0</h4>                            
+                                </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Users following</h5>
-                                <h4>${res.data.following}</h4>                            </div>
+                                <h4>${res.data.following}</h4>                            
+                                </div>
                         </div>
                     </div>
                 </div>
