@@ -25,24 +25,29 @@ inquirer.prompt([
     let color = answers.color
     const queryUrl = `https://api.github.com/users/${answers.gitUser}`;
     const queryUrlStar = `https://api.github.com/users/${answers.gitUser}/repos?per_page=100`;
-         let stars =  axios.get(queryUrlStar).then(function (resStar) {
-        let dat = resStar.data[0].stargazers_count;
-        stars = dat;
-    }) 
+        
+
     axios.get(queryUrl).then(function (res) {
-        let name = res.data.name;
-        let profileImage = res.data.avatar_url;
-        let userCompany = res.data.company;
-        let repos = res.data.public_repos;
-        let followers = res.data.followers;
-        let following = res.data.following;
-        let user = res.data.html_url;
-        let location = res.data.location;
-        let bio = res.data.bio;
-        let html = generateHTML(answers,res);
-        htmpPDF.create(html).toFile(`./${res.data.name}.pdf`, function (err, res) {
-            if (err) return console.log(err);
-        });
+        // let name = res.data.name;
+        // let profileImage = res.data.avatar_url;
+        // let userCompany = res.data.company;
+        // let repos = res.data.public_repos;
+        // let followers = res.data.followers;
+        // let following = res.data.following;
+        // let user = res.data.html_url;
+        // let location = res.data.location;
+        // let bio = res.data.bio;
+        
+        let stars =  axios.get(queryUrlStar).then(function (resStar) {
+            let dat = resStar.data[0].stargazers_count;
+            stars = dat;
+            
+            let html = generateHTML(answers, res, stars);
+            htmpPDF.create(html).toFile(`./${res.data.name}.pdf`, function (err, res) {
+                if (err) return console.log(err);
+            });
+        }) 
+        
         console.log(`Successfully wrote ${res.data.name}.pdf`);
   
     })
@@ -54,7 +59,7 @@ inquirer.prompt([
 
 });
 
-function generateHTML(answers, res){
+function generateHTML(answers, res, stars){
     return `
     <!DOCTYPE html>
 <html lang="en">
@@ -88,6 +93,7 @@ function generateHTML(answers, res){
 </head>
 
 <body>
+<br>
     <div class="container">
         <div class="main-card text-center">
             <br>
@@ -98,7 +104,7 @@ function generateHTML(answers, res){
                 <h2>Currently @ ${res.data.company}</h2>
                 <div class="row justify-content-center">
                     <nav class="nav">
-                      <a class="nav-link active" href=""https://www.google.com/maps/search/?api=1&query=${res.data.location}"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
+                      <a class="nav-link active" href="https://www.google.com/maps/search/?api=1&query=${res.data.location}"><i class="fas fa-location-arrow fa-lg white-text mr-md- mr- fa-1x"></i>
                         ${res.data.location}</a>
                       <a class="nav-link" href="${res.data.html_url}"><i class="fab fa-github fa-lg white-text mr-md- mr- fa-1x"></i> GitHub</a>
                       <a class="nav-link" href="#"><i class="fas fa-rss fa-lg white-text mr-md- mr- fa-1x"></i> Blog</a>
@@ -118,6 +124,7 @@ function generateHTML(answers, res){
                             </div>
                         </div>
                     </div>
+                    <br>
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-body">
@@ -132,10 +139,11 @@ function generateHTML(answers, res){
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">GitHub Stars</h5>
-                                <h4>0</h4>                            
+                                <h4>${stars}</h4>                            
                                 </div>
                         </div>
                     </div>
+                    <br>
                     <div class="col-sm-6">
                         <div class="card">
                             <div class="card-body">
