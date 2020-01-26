@@ -98,7 +98,7 @@ function generateHTML(answers, res, stars){
         <div class="main-card text-center">
             <br>
             <div class="text-center">
-                <img src="https://avatars1.githubusercontent.com/u/56855025?s=400&v=4" class="rounded-circle" alt="user image" style="height:200px">
+                <img src="${res.data.avatar_url}" class="rounded-circle" alt="user image" style="height:200px">
                 <h2>Hi!</h2>
                 <h2>My name is ${res.data.name}</h2>
                 <h2>Currently @ ${res.data.company}</h2>
